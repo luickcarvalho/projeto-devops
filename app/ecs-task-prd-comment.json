@@ -1,0 +1,105 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:898939122341:task-definition/ecs-task-prd-comment:3",
+    "containerDefinitions": [
+        {
+            "name": "comment",
+            "image": "898939122341.dkr.ecr.us-east-1.amazonaws.com/ecr-prd-comment:latest",
+            "cpu": 256,
+            "memory": 512,
+            "memoryReservation": 512,
+            "portMappings": [
+                {
+                    "containerPort": 8000,
+                    "hostPort": 8000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "AWS_REGION",
+                    "value": "us-east-1"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "linuxParameters": {
+                "initProcessEnabled": true
+            },
+            "secrets": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/prd/comment",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "comment"
+                }
+            }
+        }
+    ],
+    "family": "ecs-task-prd-comment",
+    "taskRoleArn": "arn:aws:iam::898939122341:role/role-prd-ecs-task-comment",
+    "executionRoleArn": "arn:aws:iam::898939122341:role/iam_ecs_task_assumable_role-h43u",
+    "networkMode": "awsvpc",
+    "revision": 3,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.25"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "registeredAt": "2024-02-11T17:34:30.501Z",
+    "registeredBy": "arn:aws:iam::898939122341:user/terraform",
+    "tags": [
+        {
+            "key": "Env",
+            "value": "PRD"
+        },
+        {
+            "key": "Project",
+            "value": "Comment"
+        },
+        {
+            "key": "Team",
+            "value": "INFRA"
+        }
+    ]
+}
