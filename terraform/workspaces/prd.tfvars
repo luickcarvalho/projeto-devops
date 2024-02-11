@@ -61,7 +61,7 @@ alb_comment = {
  tg_unhealthy_threshold = "2"
  tg_timeout = "10"
  tg_matcher = "200"
- tg_health_check = "/"
+ tg_health_check = "/healthcheck"
 }
 
 #LOG_GROUP
@@ -88,10 +88,10 @@ codebuild = {
 cluster_comment = {
 
   cluster_name = "ecs-cluster-prd-comment"
-  fargate_cap_providers = 1
-  fargate_base = 1
-  fargate_spot_cap_providers = 0
-  fargate_spot_base = 0
+  fargate_cap_providers = 0
+  fargate_base = 0
+  fargate_spot_cap_providers = 1
+  fargate_spot_base = 1
 }
 
 #ECS
