@@ -2,7 +2,7 @@ name: CICD
 
 on:
   push:
-    branches: [ deploy-to-ecs-fargate ]
+    branches: [ app ]
 
 jobs:
   build-and-deploy:
@@ -27,7 +27,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
-          REPOSITORY: app
+          REPOSITORY: ${{ env.aws_task_definition }}
         run: |
           # Build a docker container and
           # push it to ECR so that it can
