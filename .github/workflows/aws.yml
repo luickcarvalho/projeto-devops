@@ -27,7 +27,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
-          REPOSITORY: ${{ env.aws_repository}}
+          REPOSITORY: ecr-prd-comment
         run: |
           # Build a docker container and
           # push it to ECR so that it can
