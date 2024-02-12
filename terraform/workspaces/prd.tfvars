@@ -14,14 +14,15 @@ s3 = {
 
 #SG
 sg_alb_comment = {
-  name            = "SG-PRD-ALB-PLATAFORMA-COMMENT"
+  name            = "SG-PRD-ALB-COMMENT"
   description     = "SG do ALB COMMENT"
 }
 
 sg_ecs_comment = {
-  name            = "SG-PRD-ECS-PLATAFORMA-COMMENT"
+  name            = "SG-PRD-ECS-COMMENT"
   description     = "SG do ECS COMMENT"
 }
+
 
 
 #IAM
@@ -116,7 +117,7 @@ ecs_comment = {
   attach_default_tg     = "true"
   tg_name               = "TG-PRD-COMMENT-ECS"
 
-  custom_security_group = "SG-PRD-ECS-PLATAFORMA-COMMENT"
+  custom_security_group = "SG-PRD-ECS-COMMENT"
   ecr_repository_name   = "ecr-prd-comment"
 
   log_group_name        = "/ecs/prd/comment"
@@ -137,13 +138,14 @@ rds = {
   engine_version    = "8.0"
   storage_encrypted = true
   master_username   = "root"
+  db_subnet_group_name = "db-subnet-group-comment"
 
   monitoring_interval = 60
 
   apply_immediately   = true
   skip_final_snapshot = true
 
-  min_capacity = 1
-  max_capacity = 3
+  min_capacity = 0.5
+  max_capacity = 1
   instance_class = "db.serverless"
 }

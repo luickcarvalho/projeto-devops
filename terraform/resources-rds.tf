@@ -1,6 +1,6 @@
 module "rds_comment" {
   source  = "terraform-aws-modules/rds-aurora/aws"
-  version = "9.0.0"
+  version = "8.5.0"
 
   name              = var.rds.name
   engine            = var.rds.engine
@@ -8,12 +8,14 @@ module "rds_comment" {
   engine_version    = var.rds.engine_version
   storage_encrypted = var.rds.storage_encrypted
   master_username   = var.rds.master_username
+  create_db_subnet_group = true
+  create_security_group  = true
 
-  vpc_id               = local.vpc_id
-  db_subnet_group_name = local.
+  vpc_id  = local.vpc_id
+  subnets = local.subnets_prd
   security_group_rules = {
-    vpc_ingress = {
-      cidr_blocks = module.vpc.private_subnets_cidr_blocks
+    ex1_ingress = {
+      source_security_group_id = module.ecs_comment_security_group.security_group_id
     }
   }
 
@@ -30,8 +32,9 @@ module "rds_comment" {
   instance_class = var.rds.instance_class
   instances = {
     one = {}
-    two = {}
   }
 
-  tags = var.rds.name
+  tags = { 
+    Name = var.rds.name 
+  }
 }
