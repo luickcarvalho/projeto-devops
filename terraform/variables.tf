@@ -45,3 +45,6 @@ default = {}
 }
 
 variable ecs_comment   {}
+
+variable rds {type = map}
+

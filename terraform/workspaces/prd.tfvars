@@ -129,3 +129,21 @@ ecs_comment = {
   managed_secrets          = [
   ]
 }
+
+rds = {
+  name              = "rds-prd-comment"
+  engine            = "aurora-mysql"
+  engine_mode       = "provisioned"
+  engine_version    = "8.0"
+  storage_encrypted = true
+  master_username   = "root"
+
+  monitoring_interval = 60
+
+  apply_immediately   = true
+  skip_final_snapshot = true
+
+  min_capacity = 1
+  max_capacity = 3
+  instance_class = "db.serverless"
+}

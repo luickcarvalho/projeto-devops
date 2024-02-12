@@ -8,7 +8,7 @@ module "alb_comment" {
   internal = var.alb_comment.internal
 
   vpc_id     = local.vpc_id
-  subnets    = local.subnets_frontend
+  subnets    = local.subnets_prd
   security_groups    = [module.alb_comment_security_group.security_group_id]
   listener_ssl_policy_default = var.alb_comment.listener_ssl_policy_default
   idle_timeout = var.alb_comment.idle_timeout

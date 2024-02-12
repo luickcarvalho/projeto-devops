@@ -32,7 +32,7 @@ module "ecs_comment" {
   
   vpc_id          = local.vpc_id
   region          = var.aws_region
-  subnets_ids_ecs = local.subnets_frontend
+  subnets_ids_ecs = local.subnets_prd
 
   task_envs       = var.ecs_comment.task_envs
   managed_secrets = var.ecs_comment.managed_secrets
