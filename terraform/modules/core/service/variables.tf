@@ -1,290 +1,263 @@
-#### Cluser variables ####
-variable "cluster_name" {
-  description = "The cluster name"
-  type = string
+####################
+# Required variables
+####################
+
+variable "name" {
+  description = "The service name."
+  type        = string
 }
 
-variable "cluster_arn" {
-  description = "ECS cluster ARN"
-  type = string
+variable "cluster" {
+  description = "The cluster name or ARN."
+  type        = string
 }
 
-#### Service variables ####
-variable "task_name" {
-  description = "The task name"
-  default = null
-}
-
-variable "task_role" {
-  description = "IAM Task Role to assign to the Container"
+variable "container_definitions" {
+  description = "Container definitions raw json string or rendered template. Not required if `create_task_definition` is `false`."
   default     = null
   type        = string
 }
 
-variable "container_name" {
-  description = "Container name"
+variable "create_task_definition" {
+  description = "Create the task definition"
+  default     = true
+  type        = bool
 }
 
-variable "image_uri" {
-  description = "Define an image uri. Needed if ECR repository isn't created"
-  default = null
+variable "task_definition_arn" {
+  description = "If `create_task_definition` is `false`, provide the ARN of task definition to use"
+  default     = null
+  type        = string
 }
 
-variable "definition_name" {
-  description = "Task Definition name"
+#########
+# Options
+#########
+
+#############
+# IAM Section
+#############
+
+variable "iam_lb_role" {
+  description = "IAM Role ARN to use to attach service to Load Balancer. This parameter is required if you are using a load balancer with your service, but only if your task definition does not use the awsvpc network mode. If using awsvpc network mode, do not specify this role. If your account has already created the Amazon ECS service-linked role, that role is used by default for your service unless you specify a role here."
+  default     = null
+  type        = string
 }
 
-variable "service_name" {
-  description = "ECS service name"
+variable "iam_task_role" {
+  description = "IAM Role for task to use to access AWS services (dynamo, s3, etc.)"
+  default     = null
+  type        = string
 }
 
-variable "log_group_name" {
-  description = "CloudWatch Log Group name"
+variable "iam_daemon_role" {
+  description = "IAM Role for ECS Agent and Docker Daemon to use (ECR, etc.). Required if specifying `repositoryCredentials` in container configuration."
+  default     = null
+  type        = string
 }
 
-variable "log_group_prefix" {
-  description = "CloudWatch Log Group prefix"
-}
+#################
+# Service Section
+#################
 
-variable "retention_logs" {
-  description = "CloudWatch Log Group Retention in Days"
-  default = "30"
-}
-
-variable "vpc_id" {
-  description = "The VPC id"
-}
-
-variable "region" {
-  description = "The Region to create the resources"
-  default = "us-east-1"
-}
-
-variable "subnets_ids_ecs" {
-  type        = list
-  description = "The ECS Service Subnets to use"
-}
-
-variable "ecr_lifecycle_count_images" {
+variable "desired_count" {
+  description = "The number of instances of the task definition to place and keep running. Defaults to 0. Do not specify if using the `DAEMON` scheduling strategy."
+  default     = null
   type        = number
-  description = "Count number of images to keep in repository until expires"
-  default = "30"
 }
 
-variable "ecr_arn" {
-  description = "External ECR ARN"
-  default = null
-  type = string
+variable "ignore_desired_count_changes" {
+  description = "Ignores any changes to `desired_count` parameter after apply. Note updating this value will destroy the existing service and recreate it."
+  default     = false
+  type        = bool
 }
 
-variable "alb_default_tg_arn" {
-  type = string
-  default = null
-  description = "ALB default external ARN"
+variable "deployment_controller" {
+  description = "Type of deployment controller. Valid values: `CODE_DEPLOY`, `ECS`."
+  default     = "ECS"
+  type        = string
 }
 
-variable "alb_sg_id" {
-  type = string
-  default = null
-  description = "ALB SG id"
+variable "deployment_minimum_healthy_percent" {
+  description = "lower limit (% of `desired_count`) of # of running tasks during a deployment"
+  default     = 100
+  type        = number
 }
 
-variable "attach_default_tg" {
-  description = "Is your ECS service acessible through LB?"
-  type = bool
-  default = false
+variable "deployment_maximum_percent" {
+  description = "upper limit (% of `desired_count`) of # of running tasks during a deployment. Do not fill when using `DAEMON` scheduling strategy."
+  default     = null
+  type        = number
 }
 
-variable "container_port" {
-  description = "Container target port"
+variable "enable_ecs_managed_tags" {
+  description = "Specifies whether to enable Amazon ECS managed tags for the tasks within the service. Boolean value."
+  default     = null
+  type        = bool
 }
 
-variable "container_protocol" {
-  description = "Container Protocol"
+variable "enable_execute_command" {
+  description = "Specifies whether to enable Amazon ECS Exec for the tasks within the service."
+  default     = null
+  type        = bool
 }
 
-variable "desired_tasks" {
-  description = "Number of containers desired to run the application task"
-  default = "1"
+variable "enable_deployment_circuit_breaker_without_rollback" {
+  description = "Enable Deployment Circuit Breaker without Rollback."
+  default     = false
+  type        = bool
+}
+variable "enable_deployment_circuit_breaker_with_rollback" {
+  description = "Enable Deployment Circuit Breaker with Rollback. When a service deployment fails, the service is rolled back to the last deployment that completed successfully."
+  default     = false
+  type        = bool
 }
 
-variable "desired_task_cpu" {
-  description = "Task CPU Limit"
+variable "force_new_deployment" {
+  description = "Enable to force a new task deployment of the service. This can be used to update tasks to use a newer Docker image with same image/tag combination (e.g. `myimage:latest`), roll Fargate tasks onto a newer platform version, or immediately deploy `ordered_placement_strategy` and `placement_constraints` updates."
+  default     = null
+  type        = bool
 }
 
-variable "desired_task_memory" {
-  description = "Task Memory Limit"
+variable "health_check_grace_period_seconds" {
+  description = "Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 2147483647. Only valid for services configured to use load balancers."
+  default     = null
+  type        = number
 }
 
-variable "min_tasks" {
-  description = "Minimum"
-  default = "1"
+variable "launch_type" {
+  description = "The launch type on which to run your service. The valid values are `EC2` or `FARGATE`."
+  default     = null
+  type        = string
 }
 
-variable "max_tasks" {
-  description = "Maximum"
-  default = "1"
+variable "platform_version" {
+  description = "The platform version on which to run your service. Only applicable for `launch_type` set to `FARGATE`. Defaults to `LATEST`. [AWS Docs](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html)"
+  default     = null
+  type        = string
 }
 
-variable "cpu_to_scale_up" {
-  description = "CPU % to Scale Up the number of containers"
-  default = "75"
+variable "propagate_tags" {
+  description = "Specifies whether to propagate the tags from the task definition or the service to the tasks. The valid values are `SERVICE` and `TASK_DEFINITION`."
+  default     = null
+  type        = string
 }
 
-variable "cpu_to_scale_down" {
-  description = "CPU % to Scale Down the number of containers"
-  default = "20"
+variable "scheduling_strategy" {
+  description = "The scheduling strategy to use for the service. The valid values are `REPLICA` and `DAEMON`. Fargate Tasks do not support `DAEMON` scheduling strategy."
+  default     = null
+  type        = string
 }
 
-variable "ecs_sg_name" {
-  description = "ECS Security Group"
-  default = null
+variable "wait_for_steady_state" {
+  description = "If `true`, Terraform will wait for the service to reach a steady state (like aws ecs wait services-stable) before continuing."
+  default     = null
+  type        = bool
 }
 
-variable "custom_security_group" {
-  description = "ECS Custom Security Group"
-  type    = list
-  default = null
+variable "load_balancers" {
+  description = "List of map for load balancers configuration."
+  default     = []
+  type        = list(any)
 }
 
-variable "ecr_repository_name" {
-  description = "The repository name"
-  type = string
-  default = null
+variable "network_configuration" {
+  description = "Map of a network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own Elastic Network Interface, and it is not supported for other network modes. [Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service#network_configuration)"
+  default     = null
+  type        = any
 }
 
-variable "ecr_repository_lifecycle_policy" {
-  type = string
-  default = null
+variable "service_registry" {
+  description = "Map of a service discovery registries for the service. Consists of `registry_arn`, `port`(optional), `container_port`(optional), `container_port`(optional). [Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service#service_registries)"
+  default     = null
+  type        = any
 }
 
-variable "ecr_image_tag_mutability" {
-  type = string
-  default = "MUTABLE"
+variable "capacity_provider_strategy" {
+  description = "List of map of the capacity provider strategy to use for the service. [Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service#capacity_provider_strategy)"
+  default     = []
+  type        = list(any)
 }
 
-variable "ecs_custom_policies_arns" {
-  type = list
-  default = []
-  description = "A list of policies ARNs"
+variable "ordered_placement_strategy" {
+  description = "List of map of service level strategy rules that are taken into consideration during task placement. List from top to bottom in order of precedence. Max 5. [Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service#ordered_placement_strategy)"
+  default     = []
+  type        = list(any)
 }
 
-variable "ip_address_type" {
-  type = string
-  default = "ipv4"
-  description = "IP version"
+variable "placement_constraints" {
+  description = "List of map of placement constraints for Task Definition. Max 10. [Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service#placement_constraints)"
+  default     = []
+  type        = list(any)
 }
 
-variable "assign_public_ip" {
-  type = bool
-  default = false
-  description = "Define if a Public IP should be assigned"
+variable "tags" {
+  description = "Key-value mapping of resource tags"
+  default     = {}
+  type        = map(string)
 }
 
-variable "ecs_sg_egress_blocks" {
-  type = list
-  default = [ "0.0.0.0/0" ]
+##########################################################################
+# Task Definition section
+# This section is entirely optional if `create_task_definition` is `false`
+##########################################################################
+
+variable "task_cpu" {
+  description = "Task level CPU units."
+  default     = null
+  type        = number
 }
 
-variable "ecs_sg_egress_rules" {
-  type = list
-  default = [ "all-all" ]
+variable "task_memory" {
+  description = "Task level Memory units."
+  default     = null
+  type        = number
 }
 
-variable "ecs_enable_ssm_exec" {
-  type = bool
-  default = true
+variable "task_network_mode" {
+  description = "The network mode for container."
+  default     = "bridge"
+  type        = string
 }
 
-variable "task_envs" {
-  type = map
-  default = {}
-  description = "A key/value map with Env Vars"
+variable "task_ipc_mode" {
+  description = "The IPC resource namespace to be used for the containers in the task The valid values are `host`, `task`, and `none`."
+  default     = null
+  type        = string
 }
 
-variable "managed_secrets" {
-  default = []
-  description = "A list with maps of Secrets to be created"
+variable "task_pid_mode" {
+  description = "The process namespace to use for the containers in the task. The valid values are `host` and `task`."
+  default     = null
+  type        = string
 }
 
-variable "external_secrets" {
-  default = []
-  description = "A list with external Secrets"
+variable "task_requires_compatibilites" {
+  description = "A set of launch types required by the task. The valid values are `EC2` and `FARGATE`."
+  default     = ["EC2"]
+  type        = list(string)
 }
 
-variable "task_definition_template" {
-  type = string
-  default = null
-  description = "Definie a custom Task Definition template"
+variable "task_volume_configurations" {
+  description = "Volume Block Arguments for Task Definition. List of map. Note that `docker_volume_configuration` should be specified as map argument instead of block. [Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition#volume)"
+  default     = []
+  type        = list(any)
 }
 
-variable "alb_listener_http" {
-  default = {}
-  description = "The ALB HTTP Listener object"
+variable "task_inference_accelerator" {
+  description = "Inference accelerator for Task Definition. List of map. [Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition#inference_accelerator)"
+  default     = []
+  type        = list(any)
 }
 
-variable "alb_listener_https" {
-  default = {}
-  description = "The ALB HTTPS Listener object"
+variable "task_proxy_configuration" {
+  description = "The proxy configuration details for the App Mesh proxy. Defined as map argument. [Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition#proxy_configuration)"
+  default     = null
+  type        = any
 }
 
-variable "condition_path_patterns" {
-  default = []
-  type = list
-}
-
-variable "condition_host_headers" {
-  default = []
-  type = list
-}
-
-variable "alb_tg_name" {
-  type = string
-  default = null
-  description = "TG resource name"
-}
-
-variable "lb_type" {
-  description = "Load Balancer Type"
-  default = "application"
-    validation {
-    condition = contains(["application", "network", "gateway"], var.lb_type)
-    error_message = "Valid value is one of the following: application, network, gateway."
-  }
-}
-
-variable "health_check" {
-  description = "The target group health check"
-  type = map
-  default = {}
-}
-
-variable "custom_task_definition_version" {
-  description = "Set a custom task definition family:version"
-  type = string
-  default = null
-}
-
-variable "schedule_name" {
-  type = string
-  default = null
-  description = "The Schedule name"
-}
-
-variable "schedule_rule" {
-  type = string
-  default = null
-  description = "The Schedule rule in a CRON format"
-}
-
-variable "schedule_description" {
-  type = string
-  default = null
-  description = "The Schedule description"
-}
-
-variable "schedule_task_count" {
-  type = number
-  default = 0
-  description = "The number of Tasks to run"
+variable "task_runtime_platform" {
+  description = "Runtime platform (operating system and CPU architecture) that containers may use. Defined as map argument. [Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition#runtime_platform)"
+  default     = null
+  type        = any
 }

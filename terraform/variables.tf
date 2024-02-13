@@ -23,8 +23,6 @@ type = map
 default = {}
 }
 
-variable codebuild {type = map}
-
 variable s3 {type = map}
 
 variable alb_comment {
@@ -48,3 +46,4 @@ variable ecs_comment   {}
 
 variable rds {type = map}
 
+variable role {type = map}

@@ -24,7 +24,6 @@ sg_ecs_comment = {
 }
 
 
-
 #IAM
 iam = {
  name = "user-prd-comment-deploy"
@@ -32,8 +31,16 @@ iam = {
  create_iam_access_key = false
 }
 
+#ROLE
+role = {
+  task_role_comment        = "role-prd-task-role-comment"
+  ecs_exec_role_comment    = "role-prd-ecs-exec-role-comment"
+}
+
 #POLICIES
 policy = {
+  task_role_comment    = "policy-prd-claroradios-task-role-comment"
+  ecs_requirements_name   = "policy-prd-ecs-requirements-comment"
   user_name               = "policy-prd-comment-user-s3"
   deploy_user_name        = "policy-prd-comment-deploy-user"
 }
@@ -67,22 +74,18 @@ alb_comment = {
 
 #LOG_GROUP
 log_group_comment = {
+  ecs_name = "/ecs/prd/comment"
   cluster_name = "/ecs-cluster/prd/comment"
   cluster_retention = 5
+  ecs_retention = 5
+
 }
 
 #ECR
 ecr_comment = {
  repo_name            = "ecr-prd-comment"
  image_tag_mutability = "MUTABLE"
- create 	      = "false"
-}
-
-#CODEBUILD
-codebuild = {
-  comment_name     = "codebuild-prd-comment"
-  comment_zip      = "ecs-prd-comment.zip"
-  s3_bucket_comment_codebuild = "s3-prd-comment-codebuild"
+ create 	      = "true"
 }
 
 #CLUSTER ECS
@@ -98,37 +101,33 @@ cluster_comment = {
 #ECS
 ecs_comment = {
 
-  task_name             = "ecs-task-prd-comment"
-  task_role_name        = "role-prd-ecs-task-comment"
-  container_name        = "comment"
-  service_name          = "ecs-service-prd-comment"
-  definition_name       = "ecs-task-prd-comment"
-  container_port        = "8000"
-  container_protocol    = "HTTP"
-  desired_tasks         = "0"
-  desired_task_cpu      = "256"
-  desired_task_memory   = "512"
+  fargate_cap_providers = 0
+  fargate_base = 0
+  fargate_spot_cap_providers = 2
+  fargate_spot_base = 1
 
-  min_tasks             = "0"
-  max_tasks             = "1"
-  cpu_to_scale_up       = "75"
-  cpu_to_scale_down     = "20"
+  task_name = "ecs-task-prd-comment"
+  service_name = "ecs-service-prd-comment"
+  propagate_tags = "SERVICE"
+  desired_cpu = "256"
+  privileged = "true"
+  desired_memory = "512"
+  desired_tasks =  "1"
+  container_port = "8000"
+  container_name = "comment"
+  task_def_name = "ecs-task-prd-comment"
+  log_prefix = "comment"
+  platform_version = "1.3.0"
 
-  attach_default_tg     = "true"
-  tg_name               = "TG-PRD-COMMENT-ECS"
+  max_cpu_evaluation_period     = "2"
+  max_cpu_period                = "60"
+  max_cpu_threshold             = "50"
+  min_cpu_evaluation_period     = "3"
+  min_cpu_period                = "60"
+  min_cpu_threshold             = "10"
+  scale_target_max_capacity     = "2"
+  scale_target_min_capacity     = "1"
 
-  custom_security_group = "SG-PRD-ECS-COMMENT"
-  ecr_repository_name   = "ecr-prd-comment"
-
-  log_group_name        = "/ecs/prd/comment"
-  log_group_prefix      = "comment"
-  retention_logs        = "5"
-
-  task_envs             = {
-    "AWS_REGION"        = "us-east-1"
-  }
-  managed_secrets          = [
-  ]
 }
 
 rds = {
