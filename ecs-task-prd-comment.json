@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:898939122341:task-definition/ecs-task-prd-comment:3",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:898939122341:task-definition/ecs-service-prd-comment:2",
     "containerDefinitions": [
         {
             "name": "comment",
@@ -15,17 +15,9 @@
                 }
             ],
             "essential": true,
-            "environment": [
-                {
-                    "name": "AWS_REGION",
-                    "value": "us-east-1"
-                }
-            ],
+            "environment": [],
             "mountPoints": [],
             "volumesFrom": [],
-            "linuxParameters": {
-                "initProcessEnabled": true
-            },
             "secrets": [],
             "logConfiguration": {
                 "logDriver": "awslogs",
@@ -37,11 +29,11 @@
             }
         }
     ],
-    "family": "ecs-task-prd-comment",
-    "taskRoleArn": "arn:aws:iam::898939122341:role/role-prd-ecs-task-comment",
-    "executionRoleArn": "arn:aws:iam::898939122341:role/iam_ecs_task_assumable_role-h43u",
+    "family": "ecs-service-prd-comment",
+    "taskRoleArn": "arn:aws:iam::898939122341:role/role-prd-task-role-comment",
+    "executionRoleArn": "arn:aws:iam::898939122341:role/role-prd-ecs-exec-role-comment",
     "networkMode": "awsvpc",
-    "revision": 3,
+    "revision": 2,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -64,9 +56,6 @@
             "name": "com.amazonaws.ecs.capability.task-iam-role"
         },
         {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.25"
-        },
-        {
             "name": "ecs.capability.execution-role-ecr-pull"
         },
         {
@@ -86,13 +75,9 @@
     ],
     "cpu": "256",
     "memory": "512",
-    "registeredAt": "2024-02-11T17:34:30.501Z",
+    "registeredAt": "2024-02-13T15:59:34.455Z",
     "registeredBy": "arn:aws:iam::898939122341:user/terraform",
     "tags": [
-        {
-            "key": "Env",
-            "value": "PRD"
-        },
         {
             "key": "Project",
             "value": "Comment"
@@ -100,6 +85,14 @@
         {
             "key": "Team",
             "value": "INFRA"
+        },
+        {
+            "key": "Env",
+            "value": "PRD"
+        },
+        {
+            "key": "Name",
+            "value": "ecs-service-prd-comment"
         }
     ]
 }
