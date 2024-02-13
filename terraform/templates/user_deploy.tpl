@@ -19,7 +19,8 @@
        "ecs:DescribeTaskDefinition",
        "ecs:DescribeServices",
        "ecs:DeregisterTaskDefinition",
-       "iam:Passrole"
+       "iam:Passrole",
+       "ecs:TagResource"
     ],
       "Resource": "*"
     },
