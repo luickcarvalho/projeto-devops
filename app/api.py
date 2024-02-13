@@ -80,6 +80,6 @@ def api_comment_list(content_id):
 def healthcheck():
     return 'OK'
 
-## Executar a aplicação Flask
+### Executar a aplicação Flask
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
