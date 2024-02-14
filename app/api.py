@@ -85,7 +85,7 @@ def api_comment_list(content_id):
 # Rota de health check
 @app.route('/healthcheck')
 def healthcheck():
-    return 'OK'
+    return 'OK - Funcional'
 
 ### Executar a aplicação Flask
 if __name__ == '__main__':
