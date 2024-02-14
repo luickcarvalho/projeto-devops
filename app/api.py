@@ -1,28 +1,28 @@
 from flask import Flask, jsonify, request
 import mysql.connector
-import os
-
-# Ajustando a obtenção das variáveis de ambiente
-MYSQL_HOST = os.environ.get("mysql_host")
-MYSQL_DB = os.environ.get("mysql_db")
-MYSQL_USER = os.environ.get("mysql_user")
-MYSQL_PASS = os.environ.get("mysql_pass")
+import boto3
+import json
 
 app_name = 'comentarios'
 app = Flask(app_name)
 app.debug = True
 
-# Configurações do banco de dados
-db_config = {
-    'host': MYSQL_HOST,
-    'user': MYSQL_USER,
-    'password': MYSQL_PASS,
-    'database': MYSQL_DB
-}
+client = boto3.client('secretsmanager')
+response = client.get_secret_value(
+    SecretId='prd/comment/mysql'
+)
 
-# Conectar ao banco de dados
-conn = mysql.connector.connect(**db_config)
-cursor = conn.cursor()
+
+secretDict = json.loads(response['SecretString'])
+
+
+conexao = mysql.connector.connect(
+    host=secretDict['host'],
+    user=secretDict['username'],
+    passwd=secretDict['password'],
+    database=secretDict['database'],
+)
+cursor = conexao.cursor()
 
 # Criar tabela se não existir
 cursor.execute("""
@@ -52,7 +52,7 @@ def api_comment_new():
     # Inserir o comentário no banco de dados
     query = "INSERT INTO comments (email, comment, content_id) VALUES (%s, %s, %s)"
     cursor.execute(query, (email, comment, content_id))
-    conn.commit()
+    conexao.commit()
 
     message = 'Comment created and associated with content_id {}'.format(content_id)
     response = {
