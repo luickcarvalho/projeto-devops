@@ -10,10 +10,10 @@ Terraform e Ansible.
 ### CI/CD
 Para visualizar o script python da aplicação, o mesmo se encontra na branch "app", se ocorrer alguma alteração no código, automaticamente o git actions irá realizar o deploy da aplicação.
 
-#### Diagrama da Aplicação:
+### Diagrama da Aplicação:
   <img src="/img/comments.jpg">
 
-#### Teste Aplicação:
+### Teste Aplicação:
   <img src="/img/Screenshot_4.png">
   <img src="/img/Screenshot_3.png">
   <img src="/img/Screenshot_2.png">
