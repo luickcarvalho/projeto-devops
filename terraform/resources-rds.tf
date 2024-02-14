@@ -10,7 +10,8 @@ module "rds_comment" {
   master_username   = var.rds.master_username
   create_db_subnet_group = true
   create_security_group  = true
-
+  publicly_accessible = true
+  
   vpc_id  = local.vpc_id
   subnets = local.subnets_prd
   security_group_rules = {

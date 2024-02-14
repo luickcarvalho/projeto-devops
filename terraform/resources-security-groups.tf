@@ -40,7 +40,7 @@ module "alb_comment_security_group" {
   use_name_prefix = false
 
   # Ingress for HTTP
-  ingress_cidr_blocks      = ["191.243.77.243/32"]
+  ingress_cidr_blocks      = ["0.0.0.0/0"]
   ingress_ipv6_cidr_blocks = ["::/0"]
   ingress_rules            = [
                                "http-80-tcp"

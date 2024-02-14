@@ -13,10 +13,14 @@
           "Sid": "AllowSsmExec"
       },
       {
-            "Action": "secretsmanager:ListSecrets",
+            "Action": [
+                "secretsmanager:ListSecrets",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret"
+            ],
             "Effect": "Allow",
             "Resource": "*",
-            "Sid": "ListSecrets"
+            "Sid": "SecretsRead"
       }
     ]
 }
