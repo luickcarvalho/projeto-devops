@@ -1,5 +1,11 @@
 from flask import Flask, jsonify, request
 import mysql.connector
+import os
+
+MYSQL_HOST = os.environ["mysql_host"]
+MYSQL_DB = os.environ["mysql_db"]
+MYSQL_USER = os.environ["mysql_user"]
+MYSQL_PASS = os.environ["mysql_pass"]
 
 app_name = 'comentarios'
 app = Flask(app_name)
@@ -7,10 +13,10 @@ app.debug = True
 
 # Configurações do banco de dados
 db_config = {
-    'host': 'mysql-db',
-    'user': 'user_comment',
-    'password': '1234567',
-    'database': 'comments'
+    'host':{MYSQL_HOST},
+    'user': {MYSQL_USER},
+    'password': {MYSQL_PASS},
+    'database': {MYSQL_DB}
 }
 
 # Conectar ao banco de dados
