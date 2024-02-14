@@ -47,3 +47,4 @@ variable ecs_comment   {}
 variable rds {type = map}
 
 variable role {type = map}
+variable secrets {type = map}

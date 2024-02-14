@@ -148,3 +148,10 @@ rds = {
   max_capacity = 1
   instance_class = "db.serverless"
 }
+
+secrets = {
+ name          = "prd/comment/mysql"
+ description   = "MYSQL for Comment"
+ type          = "TEXT"
+ value         = null
+}
