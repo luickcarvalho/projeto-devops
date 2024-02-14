@@ -1,0 +1,42 @@
+---
+- hosts: 
+  - localhost
+  vars:
+    - host_comment_rw: 'rds-prd-comment.cluster-ctdqrm9xtcb8.us-east-1.rds.amazonaws.com'
+    - db_comment_rw_ddl: [ "comments.*:SELECT,INSERT,UPDATE,ALTER,DROP,DELETE,REFERENCES,CREATE TEMPORARY TABLES,EXECUTE,CREATE,SHOW VIEW"]
+    - aws_subnets_prd_a: [ "172.31.80.0/255.255.240.0" ]
+    - aws_subnets_prd_b: [ "172.31.16.0/255.255.240.0" ]
+    - aws_subnets_prd_c: [ "172.31.32.0/255.255.240.0" ]
+    - aws_subnets_prd_d: [ "172.31.0.0/255.255.240.0" ]
+
+  vars_prompt:
+    - name : "mysql_user"
+      prompt : "MySQL User with Grant Privilege"
+      private: no
+      default: root
+    - name : "mysql_password_prompt"
+      prompt : "MySQL Password (blank for default)"
+      private: yes
+  pre_tasks:
+    - name: ensure MySQL Python is installed
+      pip: 
+        name:
+          - PyMySQL
+          - py-mysql
+        state: present
+      become: no
+      tags: mysql-python
+
+  tasks:
+    - block:
+      - set_fact:
+          mysql_password: "{{ mysql_password_prompt if mysql_password_prompt != '' else ansible_adm_password }}" 
+          no_log: yes
+      tags: [ always ]
+
+    - name: grant User APP Comment
+      mysql_user: name=user_comment encrypted=yes password='*956765C204E92171C1B2A6BDA471D5D3062B49D5' priv={{ item[0] }} host={{ item[1] }} state=present login_user={{ mysql_user }} login_password={{ mysql_password }} login_host={{ host_comment_rw }} update_password=on_create
+      with_nested: 
+          - "{{ db_comment_rw_ddl }}"
+          - [ "{{ aws_subnets_prd_a }}", "{{ aws_subnets_prd_b }}", "{{ aws_subnets_prd_c }}", "{{ aws_subnets_prd_d }}"  ]
+      tags: [ user.comment ]
