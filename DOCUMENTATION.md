@@ -3,10 +3,11 @@
 O projeto Comment consiste no desenvolvimento de uma API desenvolvida em Python que tem a responsabilidade de registrar os comentários feitos por usuários. 
 
 ### Arquitetura
-Elastic Load Balance, ECS, RDS Aurora, Secret Manager, Git Hub e Git Action.
+Elastic Load Balance, ECS, RDS Aurora, Secret Manager, Git Hub, Git Action e Cloudwatch.
 
 ### IAC
 Terraform e Ansible.
+
 ### CI/CD
 Para visualizar o script python da aplicação, o mesmo se encontra na branch "app", se ocorrer alguma alteração no código, automaticamente o git actions irá realizar o deploy da aplicação.
 
