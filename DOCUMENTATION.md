@@ -9,7 +9,7 @@ Elastic Load Balance, ECS, RDS Aurora, Secret Manager, Git Hub, Git Action e Clo
 Terraform e Ansible.
 
 ### CI/CD
-Para visualizar o script python da aplicação, o mesmo se encontra na branch "app", se ocorrer alguma alteração no código, automaticamente o git actions irá realizar o deploy da aplicação.
+Para visualizar o código python da aplicação Comment, o mesmo se encontra na branch "app", se ocorrer alguma alteração no código, automaticamente o git actions irá realizar o deploy da aplicação.
 
 ### Diagrama da Aplicação:
   <img src="/img/comments.jpg">
