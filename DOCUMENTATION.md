@@ -17,3 +17,6 @@ Para visualizar o script python da aplicação, o mesmo se encontra na branch "a
   <img src="/img/Screenshot_4.png">
   <img src="/img/Screenshot_3.png">
   <img src="/img/Screenshot_2.png">
+
+### Dashboard Monitoramento:
+  <img src="/img/Screenshot_5.png">
