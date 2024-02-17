@@ -5,10 +5,6 @@ on:
     paths:
       - 'terraform/**'
 
-env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.TF_AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_AWS_SECRET_ACCESS_KEY }}
-
 jobs:
   plan-prd:
     name: 'terraform plan prd'
@@ -23,12 +19,19 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.7.3
+      
+      - name: Create AWS Credentials File
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.TF_AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.TF_AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
 
       - name: Terraform fmt
         id: fmt
