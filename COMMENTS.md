@@ -8,6 +8,8 @@
 
 **5** - Após provisionar todos os recursos na AWS, realizei a criação do CI/CD utilizando Git Action na branch "APP" é onde ficou armazenado o código da aplicação e Dockerfile, se ocorrer qualquer tipo de alteração nos codigos desta branch, o git action irá realizar o registry da imagem no ecr e atualizar a imagem dos containers que estarão running. Todas as variables e secrets estão configuradas no git hub.
 
+**6** - Também foi feito a criação do git actions workflow para automatizar a verificação, criação, destruição dos recursos na AWS.
+
 ## Pontos para melhorar a arquitetura:
     - AWS Cloudwatch: Monitoramento para enviar alertas via e-mail.
     - AWS WAF: Mitigar futuros ataques cibernéticos.
