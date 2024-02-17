@@ -9,11 +9,11 @@ Elastic Load Balance, ECS, RDS Aurora, Secret Manager, Git Hub, Git Action e Clo
 Terraform e Ansible.
 
 ### CI/CD
-Deploy Aplicação Python: Para visualizar o código python da aplicação Comment, o mesmo se encontra na branch "app", se ocorrer alguma alteração no código, automaticamente o git actions irá realizar o deploy da aplicação.
-Deploy Terraform:
-  Plan: Realizar alteração a partir da brach "Terraform" e no path do Terraform que irá ser criada um PR para verificar o output do plan.
-  Apply: Realizar a criação de um tag no formato v1.0.0
-  Destroy: Acessar a aba "Actions", selecionar o Workflow "Terraform Destroy" e dentro dele existe a trigger "Run Workflow".
+* Deploy Aplicação: Para visualizar o código python da aplicação Comment, o mesmo se encontra na branch "app", se ocorrer alguma alteração no código, automaticamente o git actions irá realizar o deploy da aplicação.
+* Deploy Terraform:
+  * Plan: Realizar alteração a partir da brach "Terraform" e no path do Terraform que irá ser criada um PR para verificar o output do plan.
+  * Apply: Realizar a criação de um tag no formato v1.0.0
+  * Destroy: Acessar a aba "Actions", selecionar o Workflow "Terraform Destroy" e dentro dele existe a trigger "Run Workflow".
 
 ### Diagrama da Aplicação:
   <img src="/img/comments.jpg">
