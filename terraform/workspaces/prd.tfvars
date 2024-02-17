@@ -112,12 +112,11 @@ ecs_comment = {
   desired_cpu = "256"
   privileged = "true"
   desired_memory = "512"
-  desired_tasks =  "2"
+  desired_tasks =  "1"
   container_port = "8000"
   container_name = "comment"
   task_def_name = "ecs-task-prd-comment"
   log_prefix = "comment"
-  platform_version = "1.3.0"
 
   max_cpu_evaluation_period     = "2"
   max_cpu_period                = "60"

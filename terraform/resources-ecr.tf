@@ -29,6 +29,6 @@ module "ecr_comment" {
   repository_lifecycle_policy     = local.repository_lifecycle_policy
 
   tags = {
-   Name = var.ecr_comment.repo_name
- }
+    Name = var.ecr_comment.repo_name
+  }
 }
