@@ -6,7 +6,6 @@ module "ecs_comment" {
   cpu           = var.ecs_comment.desired_cpu
   memory        = var.ecs_comment.desired_memory
   desired_count = var.ecs_comment.desired_tasks
-  #  platform_version = var.ecs_comment.platform_version
   ignore_desired_count_changes = false
   enable_execute_command       = true
 
