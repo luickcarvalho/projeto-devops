@@ -29,8 +29,8 @@ module "ecs_cluster_comment" {
   }
 
   tags = {
-   Name = var.cluster_comment.cluster_name
- }
+    Name = var.cluster_comment.cluster_name
+  }
 
 }
 
@@ -41,7 +41,7 @@ module "log_group_cluster_comment" {
   name              = var.log_group_comment.cluster_name
   retention_in_days = var.log_group_comment.cluster_retention
 
- tags = {
-  Name = var.log_group_comment.cluster_name 
- }
+  tags = {
+    Name = var.log_group_comment.cluster_name
+  }
 }
