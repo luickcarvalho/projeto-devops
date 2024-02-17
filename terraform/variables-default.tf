@@ -5,3 +5,7 @@ variable "tf_state_bucket" {
 variable "aws_region"{
     description = "AWS Region for VPC"
 }
+
+variable "profile"{
+    description = "AWS Profile"
+}

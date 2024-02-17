@@ -5,6 +5,6 @@ terraform {
     bucket         = "s3-prd-infra-lk-terraform-state"
     region         = "us-east-1"
     encrypt        = true
-    profile = "tf"
+    profile = "default"
   }
 }
