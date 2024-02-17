@@ -1,0 +1,54 @@
+name: Apply terraform resources on folder terraform with prd config
+
+on:
+  push:
+    tags:
+      - v[12].[0-9]+.[0-9]+
+
+jobs:
+  apply-prd:
+    name: 'terraform apply prd'
+    runs-on: ubuntu-latest
+    env:
+      TF_WORKING_DIR: 'terraform'
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.3
+      
+      - name: Create AWS Credentials File
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.TF_AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.TF_AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config=config/backend.conf
+      
+      - name: Terraform Select Workspace
+        id: Workspace
+        run: terraform workspace select prd
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var-file="./workspaces/prd.tfvars"
