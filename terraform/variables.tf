@@ -23,8 +23,6 @@ variable "iam" {
   default = {}
 }
 
-variable "s3" { type = map(any) }
-
 variable "alb_comment" {
   type    = map(any)
   default = {}

@@ -1,17 +1,3 @@
-#BUCKETS
-s3 = {
- bucket_name_codebuild 	    = "s3-prd-comment-codebuild"
- block_public_acls          = true
- block_public_policy        = true
- ignore_public_acls         = true
- restrict_public_buckets    = true
- attach_policy              = false
- versioning                 = true
- control_object_ownership   = true
- object_ownership           = "BucketOwnerEnforced"
-
-}
-
 #SG
 sg_alb_comment = {
   name            = "SG-PRD-ALB-COMMENT"
