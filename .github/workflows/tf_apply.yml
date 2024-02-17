@@ -1,4 +1,4 @@
-name: Apply terraform resources on folder terraform with prd config
+name: Terrafom Apply
 
 on:
   push:
