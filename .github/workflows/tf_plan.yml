@@ -1,4 +1,4 @@
-name: Create terraform plan on folder terraform
+name: Terraform Plan
 
 on:
   pull_request:
