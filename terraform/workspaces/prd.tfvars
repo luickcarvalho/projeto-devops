@@ -125,7 +125,7 @@ ecs_comment = {
   min_cpu_evaluation_period     = "3"
   min_cpu_period                = "60"
   min_cpu_threshold             = "10"
-  scale_target_max_capacity     = "2"
+  scale_target_max_capacity     = "3"
   scale_target_min_capacity     = "1"
 
 }
