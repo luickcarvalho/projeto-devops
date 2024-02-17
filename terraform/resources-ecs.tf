@@ -1,11 +1,11 @@
 module "ecs_comment" {
   source = ".//modules/simple/fargate"
 
-  name          = var.ecs_comment.service_name
-  cluster       = module.ecs_cluster_comment.cluster_name
-  cpu           = var.ecs_comment.desired_cpu
-  memory        = var.ecs_comment.desired_memory
-  desired_count = var.ecs_comment.desired_tasks
+  name                         = var.ecs_comment.service_name
+  cluster                      = module.ecs_cluster_comment.cluster_name
+  cpu                          = var.ecs_comment.desired_cpu
+  memory                       = var.ecs_comment.desired_memory
+  desired_count                = var.ecs_comment.desired_tasks
   ignore_desired_count_changes = false
   enable_execute_command       = true
 
