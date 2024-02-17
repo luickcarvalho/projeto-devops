@@ -51,4 +51,4 @@ jobs:
         run: terraform validate -no-color
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -target="module.ecs_comment_security_group" -var-file="./workspaces/prd.tfvars"
+        run: terraform apply -auto-approve -var-file="./workspaces/prd.tfvars"
