@@ -1,6 +1,6 @@
 
 ## Descrição da Aplicação:
-O projeto Comment consiste no desenvolvimento de uma API desenvolvida em Python que tem a responsabilidade de registrar os comentários feitos por usuários. 
+O projeto Comment consiste no desenvolvimento de uma API em Python que tem a responsabilidade de registrar os comentários feitos por usuários. 
 
 ### Arquitetura
 Elastic Load Balance, ECS, RDS Aurora, Secret Manager, Git Hub, Git Action e Cloudwatch.
